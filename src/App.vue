@@ -8,7 +8,7 @@
     </div>
     <div>
       <TodoItem v-for="item in getActiveList" @updateValue="onUpdate" :key="item.id" :value="item"/>
-      <TodoItem v-bind="$attrs" ref="last" @updateValue="onUpdate"/>
+      <TodoItem ref="last" @updateValue="onUpdate"/>
     </div>
   </div>
 </template>
