@@ -15,7 +15,9 @@ pipeline {
     }
     post {
         always {
-            zip zipFile: 'build.zip', archive: false, glob: 'dist/**/*.*'
+            script{
+                    zip archive: true, dir: 'dist', zipFile: 'build.zip'
+                }
             archiveArtifacts artifacts: 'build.zip', fingerprint: true
         }
     }
