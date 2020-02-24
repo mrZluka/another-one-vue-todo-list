@@ -13,4 +13,10 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            zip zipFile: 'build.zip', archive: false, glob: 'dist/**/*.*'
+            archiveArtifacts artifacts: 'build.zip', fingerprint: true
+        }
+    }
 }
