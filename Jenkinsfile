@@ -5,7 +5,18 @@ pipeline {
             args '-p 3000:3000' 
         }
     }
+    environment{
+        DIST_FOLDER = 'dist'
+        ARTIFACT_FILE = 'build.zip'
+    }
     stages {
+        stage('Remove old artifacts') {
+            when {expression{fileExists ARTIFACT_FILE == 'true'}} 
+            steps {
+                rm ARTIFACT_FILE
+            }
+            
+        }
         stage('Build') { 
             steps {
                 sh 'npm install --max-old-space-size=400' 
@@ -16,9 +27,9 @@ pipeline {
     post {
         always {
             script{
-                    zip archive: true, dir: 'dist', zipFile: 'build.zip'
+                    zip archive: true, dir: DIST_FOLDER, zipFile: ARTIFACT_FILE
                 }
-            archiveArtifacts artifacts: 'build.zip', fingerprint: true
+            archiveArtifacts artifacts: ARTIFACT_FILE, fingerprint: true, glob: '**/*.*' archive: false 
         }
     }
 }
