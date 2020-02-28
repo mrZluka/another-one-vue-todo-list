@@ -29,7 +29,7 @@ pipeline {
             script{
                     zip archive: true, dir: DIST_FOLDER, zipFile: ARTIFACT_FILE
                 }
-            archiveArtifacts artifacts: ARTIFACT_FILE, fingerprint: true, glob: '**/*.*' archive: false 
+            archiveArtifacts artifacts: ARTIFACT_FILE, fingerprint: true, glob: '**/*.*'
         }
     }
 }
