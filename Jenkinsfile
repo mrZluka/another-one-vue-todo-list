@@ -8,12 +8,13 @@ pipeline {
     environment{
         DIST_FOLDER = 'dist'
         ARTIFACT_FILE = 'build.zip'
+        IS_EXISTS = fileExists ARTIFACT_FILE
     }
     stages {
         stage('Remove old artifacts') {
-            when {expression{fileExists ARTIFACT_FILE == 'true'}} 
+            when {expression{ IS_EXISTS == 'true'}} 
             steps {
-                rm ARTIFACT_FILE
+                sh 'rm build.zip'
             }
             
         }
@@ -27,9 +28,9 @@ pipeline {
     post {
         always {
             script{
-                    zip archive: true, dir: DIST_FOLDER, zipFile: ARTIFACT_FILE
+                    zip archive: true, dir: DIST_FOLDER, zipFile: ARTIFACT_FILE, glob: '**/*.*'
                 }
-            archiveArtifacts artifacts: ARTIFACT_FILE, fingerprint: true, glob: '**/*.*'
+            archiveArtifacts artifacts: ARTIFACT_FILE, fingerprint: true
         }
     }
 }
